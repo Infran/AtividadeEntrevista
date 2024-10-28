@@ -30,6 +30,7 @@ namespace WebAtividadeEntrevista.Controllers
             BoBeneficiario boBeneficiario = new BoBeneficiario();
 
 
+
             if (!this.ModelState.IsValid)
             {
                 List<string> erros = (from item in ModelState.Values
@@ -52,6 +53,15 @@ namespace WebAtividadeEntrevista.Controllers
                     Response.StatusCode = 400;
                     return Json("CPF já cadastrado");
                 }
+
+                if (model.Beneficiarios is null)
+                    model.Beneficiarios = new List<BeneficiarioModel>();
+
+                if (model.Beneficiarios.FindAll(b => !boCliente.ValidaCPF(b.CPF)).Count > 0)
+                {
+                    Response.StatusCode = 400;
+                    return Json("CPF de um beneficiario invalido");
+                };
 
                 model.Id = boCliente.Incluir(new Cliente()
                 {
@@ -109,6 +119,15 @@ namespace WebAtividadeEntrevista.Controllers
                     Response.StatusCode = 400;
                     return Json("CPF invalido");
                 }
+
+                if (model.Beneficiarios is null)
+                    model.Beneficiarios = new List<BeneficiarioModel>();
+
+                if (model.Beneficiarios.FindAll(b => !boCliente.ValidaCPF(b.CPF)).Count > 0)
+                {
+                    Response.StatusCode = 400;
+                    return Json("CPF de um beneficiario invalido");
+                };
 
                 boCliente.Alterar(new Cliente()
                 {
