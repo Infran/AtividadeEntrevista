@@ -4,7 +4,15 @@ $(document).ready(function () {
         console.log('keydown event', e);
         e.target.value = maskCPF(e.target.value);
     });
+    $('.cep').keyup(function (e) {
+        console.log('keydown event', e);
+        e.target.value = maskCEP(e.target.value);
+    });
 
+    $('.fone').keyup(function (e) {
+        console.log('keydown event', e);
+        e.target.value = maskPhone(e.target.value);
+    });
     function atualizarDadosTabela() {
         $('#dadosTabelaBeneficarios').empty();
         beneficiarios.forEach((beneficiario, index) => {
@@ -107,6 +115,9 @@ $(document).ready(function () {
     
 })
 
+const maskOnlyNumbers = (value) => {
+    return value.replace(/\D/g, "");
+};
 
 const maskCPF = (value) => {
     return value
@@ -115,6 +126,18 @@ const maskCPF = (value) => {
         .replace(/(\d{3})(\d)/, "$1.$2")
         .replace(/(\d{3})(\d{1,2})/, "$1-$2")
         .replace(/(-\d{2})\d+?$/, "$1");
+};
+
+const maskPhone = (value) => {
+    return value
+        .replace(/\D/g, "")
+        .replace(/(\d{2})(\d)/, "($1) $2")
+        .replace(/(\d{5})(\d)/, "$1-$2")
+        .replace(/(-\d{4})(\d+?)$/, "$1");
+};
+
+const maskCEP = (value) => {
+    return value.replace(/\D/g, "").replace(/^(\d{5})(\d{3})+?$/, "$1-$2");
 };
 
 function ModalDialog(titulo, texto) {
