@@ -1,5 +1,10 @@
 ﻿var beneficiarios = []
 $(document).ready(function () {
+    $('.cpf').keyup(function (e) {
+        console.log('keydown event', e);
+        e.target.value = maskCPF(e.target.value);
+    });
+
     function atualizarDadosTabela() {
         $('#dadosTabelaBeneficarios').empty();
         beneficiarios.forEach((beneficiario, index) => {
@@ -36,7 +41,7 @@ $(document).ready(function () {
         e.preventDefault();
 
         beneficiario = {
-            CPF: $('#CPFBeneficiario').val().replace(/\D/g, ''),
+            CPF: $('#CPFBeneficiario').val(),
             Nome: $('#NomeBeneficiario').val()
         }
 
@@ -89,7 +94,10 @@ $(document).ready(function () {
     })
 
     window.alterarBeneficiario = function (index) {
-        ModalDialog("Aviso", "Implementar alteração");
+        var beneficiario = beneficiarios[index];
+        $('#CPFBeneficiario').val(beneficiario.CPF);
+        $('#NomeBeneficiario').val(beneficiario.Nome);
+        excluirBeneficiario(index);
     }
 
     window.excluirBeneficiario = function (index) {
@@ -98,6 +106,16 @@ $(document).ready(function () {
     }
     
 })
+
+
+const maskCPF = (value) => {
+    return value
+        .replace(/\D/g, "")
+        .replace(/(\d{3})(\d)/, "$1.$2")
+        .replace(/(\d{3})(\d)/, "$1.$2")
+        .replace(/(\d{3})(\d{1,2})/, "$1-$2")
+        .replace(/(-\d{2})\d+?$/, "$1");
+};
 
 function ModalDialog(titulo, texto) {
     var random = Math.random().toString().replace('.', '');
