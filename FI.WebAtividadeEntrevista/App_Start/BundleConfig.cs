@@ -24,6 +24,9 @@ namespace FI.WebAtividadeEntrevista
 
             bundles.Add(new Bundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js"));
+            
+            bundles.Add(new Bundle("~/bundles/mask").Include(
+                      "~/Scripts/mask/jqueary.mask.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jtable").Include(
                       "~/Scripts/jtable/jquery.jtable.min.js",

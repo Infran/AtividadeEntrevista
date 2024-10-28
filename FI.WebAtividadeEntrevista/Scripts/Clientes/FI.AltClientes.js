@@ -1,5 +1,7 @@
 ﻿var beneficiarios = []
 $(document).ready(function () {
+    $('.cpf').mask('000.000.000-00', { reverse: true });
+
     function atualizarDadosTabela() {
         $('#dadosTabelaBeneficarios').empty();
         beneficiarios.forEach((beneficiario, index) => {

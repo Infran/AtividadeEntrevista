@@ -382,6 +382,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\themes\base\minified\images\" />
+    <Folder Include="Scripts\NewFolder1\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
