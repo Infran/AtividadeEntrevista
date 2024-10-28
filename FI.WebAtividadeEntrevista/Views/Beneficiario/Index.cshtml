@@ -1,0 +1,14 @@
+﻿@model List<WebAtividadeEntrevista.Models.BeneficiarioModel>
+@{
+    ViewBag.Title = "Beneficiarios";
+}
+@section scripts{
+    <script>
+        var urlAlteracao = '@Url.Action("Alterar", "Beneficiario", new { area = "" })';
+        var obj = @Html.Raw(Json.Encode(Model));
+        var urlListar = '@Url.Action("Listar", "Beneficiario", new { area = "" })';
+    </script>
+    @Scripts.Render("~/bundles/listBeneficiarios")
+}
+
+<table id="gridBeneficiarios" class="table"></table>
