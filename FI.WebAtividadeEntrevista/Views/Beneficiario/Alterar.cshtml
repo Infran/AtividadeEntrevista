@@ -1,9 +1,0 @@
-﻿@model WebAtividadeEntrevista.Models.BeneficiarioModel
-@section scripts{
-    <script>
-        var urlPost = '@Url.Action("Alterar", "Beneficiario", new { area = "" })';
-        var obj = @Html.Raw(Json.Encode(Model));
-        var urlRetorno = '@Url.Action("Index", "Beneficiario", new { area = "" })';
-    </script>
-    @Scripts.Render("~/bundles/altBeneficiarios")
-}

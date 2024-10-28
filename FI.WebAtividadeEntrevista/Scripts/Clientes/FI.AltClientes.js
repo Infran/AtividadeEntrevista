@@ -1,5 +1,20 @@
-﻿
+﻿var beneficiarios = []
 $(document).ready(function () {
+    function atualizarDadosTabela() {
+        $('#dadosTabelaBeneficarios').empty();
+        beneficiarios.forEach((beneficiario, index) => {
+            $('#dadosTabelaBeneficarios').append('                                                                                      ' +
+                '   <tr>                                                                                                                    ' +
+                '       <td>' + beneficiario.CPF + '</td>                                                                                   ' +
+                '       <td>' + beneficiario.Nome + '</td>                                                                                  ' +
+                '       <td>                                                                                                                ' +
+                '           <button type="button" class="btn btn-primary" onclick="alterarBeneficiario(' + index + ')">Alterar</button>     ' +
+                '           <button type="button" class="btn btn-primary" onclick="excluirBeneficiario(' + index + ')">Excluir</button></td>' +
+                '   </tr>                                                                                                                   ' +
+                '');
+        });
+    }
+
     if (obj) {
         $('#formCadastro #Nome').val(obj.Nome);
         $('#formCadastro #CEP').val(obj.CEP);
@@ -11,7 +26,31 @@ $(document).ready(function () {
         $('#formCadastro #Cidade').val(obj.Cidade);
         $('#formCadastro #Logradouro').val(obj.Logradouro);
         $('#formCadastro #Telefone').val(obj.Telefone);
+        if (obj.Beneficiarios && obj.Beneficiarios.length > 0)
+            beneficiarios = obj.Beneficiarios;
+
+        atualizarDadosTabela()
     }
+
+    $('#formBeneficiario').submit(function (e) {
+        e.preventDefault();
+
+        beneficiario = {
+            CPF: $('#CPFBeneficiario').val().replace(/\D/g, ''),
+            Nome: $('#NomeBeneficiario').val()
+        }
+
+        if (beneficiarios.some(b => b.CPF === beneficiario.CPF)) {
+            ModalDialog("Erro", "Este CPF já foi adicionado para o beneficiário.");
+            return;
+        }
+
+        beneficiarios.push(beneficiario);
+
+        atualizarDadosTabela();
+
+        $("#formBeneficiario")[0].reset();
+    });
 
     $('#formCadastro').submit(function (e) {
         e.preventDefault();
@@ -29,7 +68,8 @@ $(document).ready(function () {
                 "Estado": $(this).find("#Estado").val(),
                 "Cidade": $(this).find("#Cidade").val(),
                 "Logradouro": $(this).find("#Logradouro").val(),
-                "Telefone": $(this).find("#Telefone").val()
+                "Telefone": $(this).find("#Telefone").val(),
+                "Beneficiarios": beneficiarios
             },
             error:
             function (r) {
@@ -41,11 +81,21 @@ $(document).ready(function () {
             success:
             function (r) {
                 ModalDialog("Sucesso!", r)
-                $("#formCadastro")[0].reset();                                
+                $("#formCadastro")[0].reset();
+                $("#formBeneficiario")[0].reset();                                
                 window.location.href = urlRetorno;
             }
         });
     })
+
+    window.alterarBeneficiario = function (index) {
+        ModalDialog("Aviso", "Implementar alteração");
+    }
+
+    window.excluirBeneficiario = function (index) {
+        beneficiarios.splice(index, 1);
+        atualizarDadosTabela();
+    }
     
 })
 

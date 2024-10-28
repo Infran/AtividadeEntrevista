@@ -29,15 +29,6 @@ namespace FI.WebAtividadeEntrevista
                       "~/Scripts/jtable/jquery.jtable.min.js",
                       "~/Scripts/jtable/localization/jquery.jtable.pt-BR.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/beneficiarios").Include(
-                      "~/Scripts/Beneficiarios/FI.Beneficiarios.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/listBeneficiarios").Include(
-                      "~/Scripts/Beneficiarios/FI.ListBeneficiarios.js"));
-
-            bundles.Add(new ScriptBundle("~/bundles/altBeneficiarios").Include(
-                      "~/Scripts/Beneficiarios/FI.AltBeneficiarios.js"));
-
             bundles.Add(new ScriptBundle("~/bundles/clientes").Include(
                       "~/Scripts/Clientes/FI.Clientes.js"));
 

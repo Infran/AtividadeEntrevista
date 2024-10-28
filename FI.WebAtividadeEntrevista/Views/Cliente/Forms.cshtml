@@ -116,12 +116,21 @@
                         </div>
                         <div class="col-lg-4">
                             <div class="pull-left">
-                                <button id="submitFormBeneficiario" type="submit" class="btn btn-sm btn-success">Incluir</button>
+                                <button id="submitFormBeneficiario" type="submit" class="btn btn-sm btn-success" style="margin-top:27px">Incluir</button>
                             </div>
                         </div>
                     </div>
                 </form>
-                <table id="gridBeneficiarios" class="table"></table>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>CPF</th>
+                            <th>Nome</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dadosTabelaBeneficarios"></tbody>
+                </table>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->

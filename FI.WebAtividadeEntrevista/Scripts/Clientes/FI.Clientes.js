@@ -1,31 +1,44 @@
-﻿
+﻿var beneficiarios = []
 $(document).ready(function () {
+    function atualizarDadosTabela() {
+        $('#dadosTabelaBeneficarios').empty();
+        beneficiarios.forEach((beneficiario, index) => {
+            $('#dadosTabelaBeneficarios').append('                                                                                      ' +
+            '   <tr>                                                                                                                    ' +
+            '       <td>' + beneficiario.CPF + '</td>                                                                                   ' +
+            '       <td>' + beneficiario.Nome + '</td>                                                                                  ' +
+            '       <td>                                                                                                                ' +
+            '           <button type="button" class="btn btn-primary" onclick="alterarBeneficiario(' + index + ')">Alterar</button>     ' +
+            '           <button type="button" class="btn btn-primary" onclick="excluirBeneficiario(' + index + ')">Excluir</button></td>' +
+            '   </tr>                                                                                                                   ' +
+            '');                                                                                                                    
+        });                                                                                                                        
+    }
 
-    // Evento de clique para adicionar beneficiário
     $('#formBeneficiario').submit(function (e) {
         e.preventDefault();
 
-        let cpf = $('#CPFBeneficiario').val();
-        let nome = $('#NomeBeneficiario').val();
+        beneficiario = {
+            CPF: $('#CPFBeneficiario').val().replace(/\D/g, ''),
+            Nome: $('#NomeBeneficiario').val()
+        }
 
-        //// Verifica se o CPF já está listado
-        //if (beneficiarios.some(b => b.CPF === cpf)) {
-        //    ModalDialog("Erro", "Este CPF já foi adicionado para o beneficiário.");
-        //    return;
-        //}
+        if (beneficiarios.some(b => b.CPF === beneficiario.CPF)) {
+            ModalDialog("Erro", "Este CPF já foi adicionado para o beneficiário.");
+            return;
+        }
 
-        //// Adiciona beneficiário à lista e atualiza a tabela
-        //beneficiarios.push({ CPF: cpf, Nome: nome });
-        //atualizarTabelaBeneficiarios();
+        beneficiarios.push(beneficiario);
 
-        // Limpa os campos da modal
-        $('#CPFBeneficiario').val('');
-        $('#NomeBeneficiario').val('');
+        atualizarDadosTabela();
+
+        $("#formBeneficiario")[0].reset();
     });
+
     $('#formCadastro').submit(function (e) {
         e.preventDefault();
         $.ajax({
-            url: urlPost + '/' ,
+            url: urlPost + '/',
             method: "POST",
             data: {
                 "NOME": $(this).find("#Nome").val(),
@@ -37,23 +50,34 @@ $(document).ready(function () {
                 "Estado": $(this).find("#Estado").val(),
                 "Cidade": $(this).find("#Cidade").val(),
                 "Logradouro": $(this).find("#Logradouro").val(),
-                "Telefone": $(this).find("#Telefone").val()
+                "Telefone": $(this).find("#Telefone").val(),
+                "Beneficiarios": beneficiarios
             },
             error:
-            function (r) {
-                if (r.status == 400)
-                    ModalDialog("Ocorreu um erro", r.responseJSON);
-                else if (r.status == 500)
-                    ModalDialog("Ocorreu um erro", "Ocorreu um erro interno no servidor.");
-            },
+                function (r) {
+                    if (r.status == 400)
+                        ModalDialog("Ocorreu um erro", r.responseJSON);
+                    else if (r.status == 500)
+                        ModalDialog("Ocorreu um erro", "Ocorreu um erro interno no servidor.");
+                },
             success:
-            function (r) {
-                ModalDialog("Sucesso!", r)
-                $("#formCadastro")[0].reset();
-            }
+                function (r) {
+                    ModalDialog("Sucesso!", r)
+                    $("#formCadastro")[0].reset();
+                    $("#formBeneficiario")[0].reset();
+                    beneficiarios = [];
+                }
         });
     })
-    
+
+    window.alterarBeneficiario = function (index) {
+        ModalDialog("Aviso", "Implementar alteração");
+    }
+
+    window.excluirBeneficiario = function (index) {
+        beneficiarios.splice(index, 1);
+        atualizarDadosTabela();
+    }
 })
 
 function ModalDialog(titulo, texto) {
